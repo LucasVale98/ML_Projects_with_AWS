@@ -1,5 +1,6 @@
 import sys 
 import logging
+from src.logger import logging
 
 """ This module defines a custom exception class that captures detailed 
 error information, including the file name and line number where the 
