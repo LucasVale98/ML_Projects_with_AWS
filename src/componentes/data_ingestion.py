@@ -8,9 +8,14 @@ from dataclasses import dataclass
 
 from src.componentes.data_transformation import DataTransformation
 from src.componentes.data_transformation import DataTransformationConfig
+from src.componentes.model_trainer import ModelTrainer
+from src.componentes.model_trainer import ModelTrainerConfig
+from src.utils import save_object
 
 # Data Ingestion Configuration
 # Defining paths for train, test, and raw data
+
+
 
 @dataclass
 class DataIngestionConfig:
@@ -23,7 +28,7 @@ class DataIngestion:
         self.ingestion_config = DataIngestionConfig()
 
     def initiate_data_ingestion(self):
-        logging.info("Data Ingestion started")
+    
         try: 
             # df = pd.read_csv('notebook\data\stud.csv')
             df = pd.read_csv(os.path.join('notebook', 'data', 'stud.csv'))   
@@ -54,4 +59,10 @@ class DataIngestion:
 if __name__ == "__main__":
     obj = DataIngestion()
     train_data, test_data = obj.initiate_data_ingestion()
+
+    data_transformation = DataTransformation()
+    train_array, test_array, _ = data_transformation.initiate_data_transformation(train_data, test_data)
     
+    model_trainer = ModelTrainer()
+    r2_score = model_trainer.initiate_model_trainer(train_array, test_array)
+    print(f"R2 Score: {r2_score}")   
